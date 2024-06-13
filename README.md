@@ -1,4 +1,4 @@
-# Gerador-de-Testes
+# Gerador de Testes
 
 ## Projeto
 
@@ -87,17 +87,12 @@ Na geração de um teste, é preciso informar o número de questões desejadas e
    	- não pode duplicar um teste com o mesmo nome
    	- na duplicação do teste, as questões devem vir em branco
 
-	4.11. Deve permitir duplicar testes.
-   	- na duplicação do teste o título, disciplina, quantidade de questões, série, prova de recuperação e matéria deverão vir preenchidos
-   	- não pode duplicar um teste com o mesmo nome
-   	- na duplicação do teste, as questões devem vir em branco
+	4.11. Deve ser possível visualizar os testes individualmente, com informações detalhadas incluindo as questões.
 
-	4.12. Deve ser possível visualizar os testes individualmente, com informações detalhadas incluindo as questões.
-
-	4.13. Deve ser possível gerar PDF dos testes.
+	4.12. Deve ser possível gerar PDF dos testes.
    	- o arquivo PDF do teste deve apresentar: título, disciplina, matéria, as questões e suas as alternativas
   
-	4.14. Deve ser possível gerar PDF do gabarito dos testes.
+	4.13. Deve ser possível gerar PDF do gabarito dos testes.
    	- o arquivo PDF do gabarito do teste deve apresentar: título, disciplina, matéria, as questões e suas alternativas (com a alternativa correta assinalada)
 ---
 
