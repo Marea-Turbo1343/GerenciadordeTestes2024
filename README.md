@@ -1,4 +1,4 @@
-# Gerador-de-Testes
+# Gerador de Testes
 
 ## Projeto
 
