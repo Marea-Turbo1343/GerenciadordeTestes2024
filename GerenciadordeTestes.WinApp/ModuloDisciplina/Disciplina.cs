@@ -4,7 +4,6 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
 {
     public class Disciplina : EntidadeBase
     {
-
         public string Nome { get; set; }
 
         //public List<Materia> Materias { get; set; }
