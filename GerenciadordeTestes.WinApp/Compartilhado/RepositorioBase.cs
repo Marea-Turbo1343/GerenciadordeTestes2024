@@ -1,6 +1,6 @@
 ﻿namespace GerenciadordeTestes.WinApp.Compartilhado
 {
-    abstract class RepositorioBase<T> where T : EntidadeBase
+    public abstract class RepositorioBase<T> where T : EntidadeBase
     {
         protected ContextoDados contexto;
 

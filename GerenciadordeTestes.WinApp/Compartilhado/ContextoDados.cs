@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
+using GerenciadordeTestes.WinApp.ModuloDisciplina;
 
 namespace GerenciadordeTestes.WinApp.Compartilhado
 {
@@ -7,14 +8,14 @@ namespace GerenciadordeTestes.WinApp.Compartilhado
     {
         private string caminho = $"C:\\temp\\GeranciadordeTestes\\dados.json";
 
-        //public List<Disciplina> Disciplinas { get; set; }
+        public List<Disciplina> Disciplinas { get; set; }
         //public List<Materia> Materias { get; set; }
         //public List<Questao> Questoes { get; set; }
         //public List<Teste> Testes { get; set; }
 
         public ContextoDados()
         {
-            //Disciplinas = new List<Disciplina>();
+            Disciplinas = new List<Disciplina>();
             //Materias = new List<Materia>();
             //Questoes = new List<Questao>();
             //Testes = new List<Teste>();
@@ -62,7 +63,7 @@ namespace GerenciadordeTestes.WinApp.Compartilhado
             if (ctx == null)
                 return;
 
-            //Disciplinas = ctx.Disciplinas;
+            Disciplinas = ctx.Disciplinas;
             //Materias = ctx.Materias;
             //Questoes = ctx.Questoes;
             //Testes = ctx.Testes;
