@@ -106,6 +106,7 @@
             MinimizeBox = false;
             Name = "TelaDisciplinaForm";
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cadastro de Disciplinas";
             ResumeLayout(false);
             PerformLayout();

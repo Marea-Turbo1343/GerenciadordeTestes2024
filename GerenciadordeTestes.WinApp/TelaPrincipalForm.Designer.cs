@@ -228,28 +228,28 @@
             // disciplinasToolStripMenuItem
             // 
             disciplinasToolStripMenuItem.Name = "disciplinasToolStripMenuItem";
-            disciplinasToolStripMenuItem.Size = new Size(180, 24);
+            disciplinasToolStripMenuItem.Size = new Size(149, 24);
             disciplinasToolStripMenuItem.Text = "Disciplinas";
             disciplinasToolStripMenuItem.Click += disciplinasToolStripMenuItem_Click;
             // 
             // materiasToolStripMenuItem
             // 
             materiasToolStripMenuItem.Name = "materiasToolStripMenuItem";
-            materiasToolStripMenuItem.Size = new Size(180, 24);
+            materiasToolStripMenuItem.Size = new Size(149, 24);
             materiasToolStripMenuItem.Text = "Matérias";
             materiasToolStripMenuItem.Click += materiasToolStripMenuItem_Click;
             // 
             // questõesToolStripMenuItem
             // 
             questõesToolStripMenuItem.Name = "questõesToolStripMenuItem";
-            questõesToolStripMenuItem.Size = new Size(180, 24);
+            questõesToolStripMenuItem.Size = new Size(149, 24);
             questõesToolStripMenuItem.Text = "Questões";
             questõesToolStripMenuItem.Click += questõesToolStripMenuItem_Click;
             // 
             // testesToolStripMenuItem
             // 
             testesToolStripMenuItem.Name = "testesToolStripMenuItem";
-            testesToolStripMenuItem.Size = new Size(180, 24);
+            testesToolStripMenuItem.Size = new Size(149, 24);
             testesToolStripMenuItem.Text = "Testes";
             testesToolStripMenuItem.Click += testesToolStripMenuItem_Click;
             // 
@@ -263,6 +263,7 @@
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
             Name = "TelaPrincipalForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Gerenciador de Testes";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();

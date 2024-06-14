@@ -91,7 +91,7 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
             if (resposta != DialogResult.Yes)
                 return;
 
-            repositorioDisciplina.Excluir(disciplinaSelecionada.Id);
+            repositorioDisciplina.Excluir(idSelecionado);
 
             CarregarDisciplinas();
 

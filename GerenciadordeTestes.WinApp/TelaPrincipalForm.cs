@@ -1,5 +1,6 @@
 using GerenciadordeTestes.WinApp.Compartilhado;
 using GerenciadordeTestes.WinApp.ModuloDisciplina;
+using GerenciadordeTestes.WinApp.ModuloMateria;
 
 namespace GerenciadordeTestes.WinApp
 {
@@ -10,6 +11,7 @@ namespace GerenciadordeTestes.WinApp
         ContextoDados contexto;
 
         IRepositorioDisciplina repositorioDisciplina;
+        IRepositorioMateria repositorioMateria;
 
         public static TelaPrincipalForm Instancia { get; private set; }
 
@@ -21,6 +23,7 @@ namespace GerenciadordeTestes.WinApp
 
             contexto = new ContextoDados(true);
             repositorioDisciplina = new RepositorioDisciplina(contexto);
+            repositorioMateria = new RepositorioMateria(contexto);
             //CadastrarRegistrosTeste();
         }
 
@@ -38,7 +41,9 @@ namespace GerenciadordeTestes.WinApp
 
         private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            controlador = new ControladorMateria(repositorioMateria, repositorioDisciplina);
+            
+            ConfigurarTelaPrincipal(controlador);
         }
 
         private void questõesToolStripMenuItem_Click(object sender, EventArgs e)
