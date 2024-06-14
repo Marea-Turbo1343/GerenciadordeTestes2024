@@ -9,6 +9,7 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
         public Disciplina Disciplina { get; set; }
         public string Serie { get; set; }
 
+        //teste
         public Materia(string nome)
         {
         }
