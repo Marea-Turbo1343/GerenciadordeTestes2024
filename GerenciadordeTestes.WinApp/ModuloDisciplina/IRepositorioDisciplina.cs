@@ -7,5 +7,6 @@
         bool Excluir(int id);
         Disciplina SelecionarPorId(int id);
         List<Disciplina> SelecionarTodos();
+        int ObterProximoId();
     }
 }

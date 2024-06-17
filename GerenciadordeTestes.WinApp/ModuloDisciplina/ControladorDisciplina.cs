@@ -4,12 +4,12 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
 {
     public class ControladorDisciplina : ControladorBase
     {
-        private TabelaDisciplinaControl tabelaDisciplina;
         private IRepositorioDisciplina repositorioDisciplina;
+        private TabelaDisciplinaControl tabelaDisciplina;
 
-        public ControladorDisciplina(IRepositorioDisciplina repositorioDisciplina)
+        public ControladorDisciplina(IRepositorioDisciplina repositorio)
         {
-            this.repositorioDisciplina = repositorioDisciplina;
+            this.repositorioDisciplina = repositorio;
         }
 
         public override string TipoCadastro { get { return "Disciplina"; } }
@@ -20,20 +20,37 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
 
         public override string ToolTipExcluir { get { return "Excluir uma disciplina existente"; } }
 
+        public void AtualizarListagem()
+        {
+            List<Disciplina> disciplinas = repositorioDisciplina.SelecionarTodos();
+
+            tabelaDisciplina.AtualizarRegistros(disciplinas);
+
+            TelaPrincipalForm.Instancia.AtualizarRodape(ObterTextoRodape(disciplinas));
+        }
+
+        private static string ObterTextoRodape(List<Disciplina> disciplinas)
+        {
+            if (disciplinas.Count == 0)
+                return "Nenhuma disciplina cadastrada até o momento!";
+            else if (disciplinas.Count == 1)
+                return "Exibindo 1 disciplina";
+            else
+                return $"Exibindo {disciplinas.Count} disciplinas.";
+        }
+
         public override void Adicionar()
         {
-            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm();
+            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina);
 
             //TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina.SelecionarTodos());
 
             DialogResult resultado = telaDisciplina.ShowDialog();
 
-            //fazer o if em direção ao erro(ou seja em caso de erro)
             if (resultado != DialogResult.OK)
                 return;
 
             Disciplina novaDisciplina = telaDisciplina.Disciplina;
-
 
             repositorioDisciplina.Cadastrar(novaDisciplina);
 
@@ -46,6 +63,8 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
         {
             //TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina.SelecionarTodos());
 
+            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina);
+
             int idSelecionado = tabelaDisciplina.ObterRegistroSelecionado();
 
             Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(idSelecionado);
@@ -56,8 +75,6 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
                 return;
             }
 
-            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm();
-
             telaDisciplina.Disciplina = disciplinaSelecionada;
 
             DialogResult resultado = telaDisciplina.ShowDialog();
@@ -67,7 +84,7 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
 
             Disciplina disciplinaEditada = telaDisciplina.Disciplina;
 
-            repositorioDisciplina.Editar(idSelecionado, disciplinaEditada);
+            repositorioDisciplina.Editar(disciplinaSelecionada.Id, disciplinaEditada);
 
             CarregarDisciplinas();
 
@@ -91,7 +108,7 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
             if (resposta != DialogResult.Yes)
                 return;
 
-            repositorioDisciplina.Excluir(idSelecionado);
+            repositorioDisciplina.Excluir(disciplinaSelecionada.Id);
 
             CarregarDisciplinas();
 
@@ -111,6 +128,8 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
                 tabelaDisciplina = new TabelaDisciplinaControl();
 
             CarregarDisciplinas();
+
+            AtualizarListagem();
 
             return tabelaDisciplina;
         }

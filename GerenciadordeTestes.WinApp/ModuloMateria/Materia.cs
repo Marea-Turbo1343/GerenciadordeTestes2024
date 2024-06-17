@@ -9,8 +9,7 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
         public Disciplina Disciplina { get; set; }
         public string Serie { get; set; }
 
-        //teste
-        public Materia(string nome)
+        public Materia()
         {
         }
 
@@ -19,15 +18,6 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
             Nome = nome;
             Disciplina = disciplina;
             Serie = serie;
-        }
-
-        public override void AtualizarRegistro(EntidadeBase novoRegistro)
-        {
-            Materia atualizado = (Materia)novoRegistro;
-
-            Nome = atualizado.Nome;
-            Disciplina = atualizado.Disciplina;
-            Serie = atualizado.Serie;
         }
 
         public override List<string> Validar()
@@ -41,6 +31,15 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
                 erros.Add("O checkbox \"Série\" é obrigatório");
 
             return erros;
+        }
+
+        public override void AtualizarRegistro(EntidadeBase novoRegistro)
+        {
+            Materia atualizado = (Materia)novoRegistro;
+
+            Nome = atualizado.Nome;
+            Disciplina = atualizado.Disciplina;
+            Serie = atualizado.Serie;
         }
 
         public override string ToString()

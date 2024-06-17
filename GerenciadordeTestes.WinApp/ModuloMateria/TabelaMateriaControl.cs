@@ -19,7 +19,7 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
             grid.Rows.Clear();
 
             foreach (Materia i in materia)
-                grid.Rows.Add(i.Id, i.Nome.ToTitleCase());
+                grid.Rows.Add(i.Id, i.Nome.ToTitleCase(), i.Disciplina, i.Serie);
         }
 
         public int ObterRegistroSelecionado()
@@ -32,7 +32,9 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
             return new DataGridViewColumn[]
                         {
                 new DataGridViewTextBoxColumn { DataPropertyName = "Id", HeaderText = "Id" },
-                new DataGridViewTextBoxColumn { DataPropertyName = "Nome", HeaderText = "Nome" }
+                new DataGridViewTextBoxColumn { DataPropertyName = "Nome", HeaderText = "Nome" },
+                new DataGridViewTextBoxColumn { DataPropertyName = "Disciplina", HeaderText = "Disciplina" },
+                new DataGridViewTextBoxColumn { DataPropertyName = "Série", HeaderText = "Série" }
                         };
         }
     }

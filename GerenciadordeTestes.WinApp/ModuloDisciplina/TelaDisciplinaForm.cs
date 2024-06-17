@@ -3,6 +3,8 @@
     public partial class TelaDisciplinaForm : Form
     {
         private Disciplina disciplina;
+        private IRepositorioDisciplina repositorioDisciplina;
+        private bool modoEdicao;
 
         public Disciplina Disciplina
         {
@@ -14,9 +16,22 @@
             get => disciplina;
         }
 
-        public TelaDisciplinaForm()
+        public TelaDisciplinaForm(IRepositorioDisciplina repositorioDisciplina, bool modoEdicao = false)
         {
             InitializeComponent();
+
+            this.repositorioDisciplina = repositorioDisciplina;
+            this.modoEdicao = modoEdicao;
+
+            if (modoEdicao)
+            {
+                this.Text = "Editar Disciplina";
+            }
+            else
+            {
+                int proximoId = repositorioDisciplina.ObterProximoId();
+                txtId.Text = proximoId.ToString();
+            }
         }
 
         private void btnGravar_Click(object sender, EventArgs e)

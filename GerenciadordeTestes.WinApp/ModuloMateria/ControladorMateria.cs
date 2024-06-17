@@ -24,9 +24,32 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
 
         public override string ToolTipExcluir { get { return "Excluir uma matéria existente"; } }
 
+        public void AtualizarListagem()
+        {
+            List<Materia> materias = repositorioMateria.SelecionarTodos();
+
+            tabelaMateria.AtualizarRegistros(materias);
+
+            TelaPrincipalForm.Instancia.AtualizarRodape(ObterTextoRodape(materias));
+        }
+
+        private static string ObterTextoRodape(List<Materia> materias)
+        {
+            if (materias.Count == 0)
+                return "Nenhuma matéria cadastrada até o momento!";
+            else if (materias.Count == 1)
+                return "Exibindo 1 matéria";
+            else
+                return $"Exibindo {materias.Count} matérias.";
+        }
+
         public override void Adicionar()
         {
-            TelaMateriaForm telaMateria = new TelaMateriaForm();
+            TelaMateriaForm telaMateria = new TelaMateriaForm(repositorioMateria);
+
+            List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
+
+            telaMateria.CarregarDisciplinas(disciplinasCadastradas);
 
             DialogResult resultado = telaMateria.ShowDialog();
 
@@ -44,6 +67,12 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
 
         public override void Editar()
         {
+            TelaMateriaForm telaMateria = new TelaMateriaForm(repositorioMateria);
+
+            List<Disciplina> disciplinasCadastradas = repositorioDisciplina.SelecionarTodos();
+
+            telaMateria.CarregarDisciplinas(disciplinasCadastradas);
+
             int idSelecionado = tabelaMateria.ObterRegistroSelecionado();
 
             Materia materiaSelecionada = repositorioMateria.SelecionarPorId(idSelecionado);
@@ -54,8 +83,6 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
                 return;
             }
 
-            TelaMateriaForm telaMateria = new TelaMateriaForm();
-
             telaMateria.Materia = materiaSelecionada;
 
             DialogResult resultado = telaMateria.ShowDialog();
@@ -65,7 +92,7 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
 
             Materia materiaEditada = telaMateria.Materia;
 
-            repositorioMateria.Editar(idSelecionado, materiaEditada);
+            repositorioMateria.Editar(materiaSelecionada.Id, materiaEditada);
 
             CarregarMaterias();
 
@@ -89,7 +116,7 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
             if (resultado != DialogResult.Yes)
                 return;
 
-            repositorioMateria.Excluir(idSelecionado);
+            repositorioMateria.Excluir(materiaSelecionada.Id);
 
             CarregarMaterias();
 
@@ -109,6 +136,8 @@ namespace GerenciadordeTestes.WinApp.ModuloMateria
                 tabelaMateria = new TabelaMateriaControl();
 
             CarregarMaterias();
+
+            AtualizarListagem();
 
             return tabelaMateria;
         }

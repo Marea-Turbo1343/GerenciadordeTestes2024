@@ -1,6 +1,9 @@
 using GerenciadordeTestes.WinApp.Compartilhado;
 using GerenciadordeTestes.WinApp.ModuloDisciplina;
 using GerenciadordeTestes.WinApp.ModuloMateria;
+//using GerenciadordeTestes.WinApp.ModuloQuestao;
+//using GerenciadordeTestes.WinApp.ModuloTeste;
+
 
 namespace GerenciadordeTestes.WinApp
 {
@@ -12,6 +15,10 @@ namespace GerenciadordeTestes.WinApp
 
         IRepositorioDisciplina repositorioDisciplina;
         IRepositorioMateria repositorioMateria;
+        //IRepositorioQuestao repositorioQuestao;
+        //IRepositorioTeste repositorioTeste;
+
+        public event Action TemporizadorTerminou;
 
         public static TelaPrincipalForm Instancia { get; private set; }
 
@@ -24,12 +31,29 @@ namespace GerenciadordeTestes.WinApp
             contexto = new ContextoDados(true);
             repositorioDisciplina = new RepositorioDisciplina(contexto);
             repositorioMateria = new RepositorioMateria(contexto);
+            //repositorioQuestao = new RepositorioQuestao(contexto);
+            //repositorioTeste = new RepositorioTeste(contexto);
+
             //CadastrarRegistrosTeste();
         }
 
         public void AtualizarRodape(string texto)
         {
-            statusLabelPrincipal.Text = texto;
+            stslblRodape.Text = texto;
+        }
+
+        public void Temporizador(string mensagem)
+        {
+            AtualizarRodape(mensagem);
+
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            timer.Interval = 5000;
+            timer.Tick += (s, e) =>
+            {
+                timer.Stop();
+                TemporizadorTerminou?.Invoke();
+            };
+            timer.Start();
         }
 
         private void disciplinasToolStripMenuItem_Click(object sender, EventArgs e)

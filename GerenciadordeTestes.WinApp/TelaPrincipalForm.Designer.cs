@@ -45,7 +45,7 @@
             toolStripSeparator4 = new ToolStripSeparator();
             lblTipoCadastro = new ToolStripLabel();
             statusStrip1 = new StatusStrip();
-            statusLabelPrincipal = new ToolStripStatusLabel();
+            stslblRodape = new ToolStripStatusLabel();
             menuStrip1 = new MenuStrip();
             menuToolStripMenuItem = new ToolStripMenuItem();
             disciplinasToolStripMenuItem = new ToolStripMenuItem();
@@ -195,18 +195,18 @@
             // statusStrip1
             // 
             statusStrip1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { statusLabelPrincipal });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { stslblRodape });
             statusStrip1.Location = new Point(0, 425);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(800, 25);
             statusStrip1.TabIndex = 5;
             statusStrip1.Text = "statusStrip1";
             // 
-            // statusLabelPrincipal
+            // stslblRodape
             // 
-            statusLabelPrincipal.Name = "statusLabelPrincipal";
-            statusLabelPrincipal.Size = new Size(185, 20);
-            statusLabelPrincipal.Text = "Visualizando 0 registro(s)...";
+            stslblRodape.Name = "stslblRodape";
+            stslblRodape.Size = new Size(118, 20);
+            stslblRodape.Text = "Seja bem-vindo!";
             // 
             // menuStrip1
             // 
@@ -262,7 +262,10 @@
             Controls.Add(toolStrip1);
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "TelaPrincipalForm";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Gerenciador de Testes";
             toolStrip1.ResumeLayout(false);
@@ -293,7 +296,7 @@
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripLabel lblTipoCadastro;
         private StatusStrip statusStrip1;
-        private ToolStripStatusLabel statusLabelPrincipal;
+        private ToolStripStatusLabel stslblRodape;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem menuToolStripMenuItem;
         private ToolStripMenuItem disciplinasToolStripMenuItem;

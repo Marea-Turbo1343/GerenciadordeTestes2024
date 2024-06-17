@@ -18,8 +18,8 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
         {
             grid.Rows.Clear();
 
-            foreach (Disciplina i in disciplina)
-                grid.Rows.Add(i.Id, i.Nome.ToTitleCase());
+            foreach (Disciplina d in disciplina)
+                grid.Rows.Add(d.Id, d.Nome.ToTitleCase());
         }
 
         public int ObterRegistroSelecionado()
