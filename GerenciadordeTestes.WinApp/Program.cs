@@ -1,4 +1,6 @@
-namespace GerenciadordeTestes.WinApp
+using GerenciadordeTestes.WinApp;
+
+namespace Gerador_de_Testes
 {
     internal static class Program
     {

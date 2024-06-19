@@ -1,4 +1,4 @@
-﻿namespace GerenciadordeTestes.WinApp.ModuloDisciplina
+﻿namespace Gerador_de_Testes.ModuloDisciplina
 {
     partial class TabelaDisciplinaControl
     {

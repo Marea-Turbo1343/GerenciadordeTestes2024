@@ -1,9 +1,6 @@
-﻿using System.Windows.Forms;
-using System.Xml.Linq;
-
-namespace Gerador_de_Testes.ModuloMateria
+﻿namespace Gerador_de_Testes.ModuloTeste
 {
-    partial class TabelaMateriaControl
+    partial class TabelaTesteControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -44,12 +41,12 @@ namespace Gerador_de_Testes.ModuloMateria
             grid.Size = new Size(150, 150);
             grid.TabIndex = 0;
             // 
-            // TabelaMateriaControl
+            // TabelaTesteControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(grid);
-            Name = "TabelaMateriaControl";
+            Name = "TabelaTesteControl";
             ((System.ComponentModel.ISupportInitialize)grid).EndInit();
             ResumeLayout(false);
         }

@@ -1,12 +1,14 @@
-﻿namespace GerenciadordeTestes.WinApp.ModuloMateria
+﻿//using GerenciadordeTestes.WinApp.ModuloMateria;
+
+namespace Gerador_de_Testes.ModuloMateria
 {
     public interface IRepositorioMateria
     {
-        void Cadastrar(Materia novoMateria);
-        bool Editar(int id, Materia materiaEditado);
+        void Cadastrar(Materia novaMateria);
+        bool Editar(int idSelecionado, Materia materiaEditada);
         bool Excluir(int id);
-        Materia SelecionarPorId(int id);
+        Materia SelecionarPorId(int idSelecionado);
         List<Materia> SelecionarTodos();
-        int ObterProximoId();
+        int PegarId();
     }
 }
