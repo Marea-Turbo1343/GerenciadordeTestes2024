@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaPrincipalForm));
             menuStrip1 = new MenuStrip();
             cadastrosToolStripMenuItem = new ToolStripMenuItem();
             disciplinasMenuItem = new ToolStripMenuItem();
@@ -127,6 +128,7 @@
             // 
             btnAdicionar.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnAdicionar.Enabled = false;
+            btnAdicionar.Image = (Image)resources.GetObject("btnAdicionar.Image");
             btnAdicionar.ImageScaling = ToolStripItemImageScaling.None;
             btnAdicionar.ImageTransparentColor = Color.Magenta;
             btnAdicionar.Name = "btnAdicionar";
@@ -138,6 +140,7 @@
             // 
             btnEditar.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnEditar.Enabled = false;
+            btnEditar.Image = (Image)resources.GetObject("btnEditar.Image");
             btnEditar.ImageScaling = ToolStripItemImageScaling.None;
             btnEditar.ImageTransparentColor = Color.Magenta;
             btnEditar.Name = "btnEditar";
@@ -149,6 +152,7 @@
             // 
             btnExcluir.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnExcluir.Enabled = false;
+            btnExcluir.Image = (Image)resources.GetObject("btnExcluir.Image");
             btnExcluir.ImageScaling = ToolStripItemImageScaling.None;
             btnExcluir.ImageTransparentColor = Color.Magenta;
             btnExcluir.Name = "btnExcluir";
@@ -165,6 +169,7 @@
             // 
             btnDuplicar.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnDuplicar.Enabled = false;
+            btnDuplicar.Image = (Image)resources.GetObject("btnDuplicar.Image");
             btnDuplicar.ImageScaling = ToolStripItemImageScaling.None;
             btnDuplicar.ImageTransparentColor = Color.DarkOrchid;
             btnDuplicar.Name = "btnDuplicar";
@@ -176,6 +181,7 @@
             // 
             btnDetalhes.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnDetalhes.Enabled = false;
+            btnDetalhes.Image = (Image)resources.GetObject("btnDetalhes.Image");
             btnDetalhes.ImageScaling = ToolStripItemImageScaling.None;
             btnDetalhes.ImageTransparentColor = Color.Magenta;
             btnDetalhes.Name = "btnDetalhes";
@@ -187,6 +193,7 @@
             // 
             btnPdf.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnPdf.Enabled = false;
+            btnPdf.Image = (Image)resources.GetObject("btnPdf.Image");
             btnPdf.ImageScaling = ToolStripItemImageScaling.None;
             btnPdf.ImageTransparentColor = Color.Magenta;
             btnPdf.Name = "btnPdf";
@@ -198,6 +205,7 @@
             // 
             btnGabarito.DisplayStyle = ToolStripItemDisplayStyle.Image;
             btnGabarito.Enabled = false;
+            btnGabarito.Image = (Image)resources.GetObject("btnGabarito.Image");
             btnGabarito.ImageScaling = ToolStripItemImageScaling.None;
             btnGabarito.ImageTransparentColor = Color.Magenta;
             btnGabarito.Name = "btnGabarito";
