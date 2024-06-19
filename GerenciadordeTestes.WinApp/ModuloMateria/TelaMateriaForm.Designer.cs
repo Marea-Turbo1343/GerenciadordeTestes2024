@@ -1,4 +1,8 @@
-﻿namespace GerenciadordeTestes.WinApp.ModuloMateria
+﻿using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+namespace Gerador_de_Testes.ModuloMateria
 {
     partial class TelaMateriaForm
     {
@@ -28,162 +32,161 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnCancelar = new Button();
-            btnGravar = new Button();
-            txtNome = new TextBox();
-            lblNome = new Label();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
             txtId = new TextBox();
-            lblId = new Label();
-            lblDisciplina = new Label();
-            cmbDisciplinas = new ComboBox();
-            lblSerie = new Label();
-            rdbPrimeira = new RadioButton();
-            rdbSegunda = new RadioButton();
+            txtNome = new TextBox();
+            cmbDisciplina = new ComboBox();
+            label4 = new Label();
+            btnGravar = new Button();
+            btnCancelar = new Button();
+            radio1Serie = new RadioButton();
+            radio2Serie = new RadioButton();
             SuspendLayout();
             // 
-            // btnCancelar
+            // label1
             // 
-            btnCancelar.DialogResult = DialogResult.Cancel;
-            btnCancelar.Location = new Point(286, 166);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(99, 36);
-            btnCancelar.TabIndex = 21;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
+            label1.AutoSize = true;
+            label1.Location = new Point(88, 38);
+            label1.Name = "label1";
+            label1.Size = new Size(20, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Id:";
             // 
-            // btnGravar
+            // label2
             // 
-            btnGravar.DialogResult = DialogResult.OK;
-            btnGravar.Location = new Point(181, 166);
-            btnGravar.Name = "btnGravar";
-            btnGravar.Size = new Size(99, 36);
-            btnGravar.TabIndex = 22;
-            btnGravar.Text = "Gravar";
-            btnGravar.UseVisualStyleBackColor = true;
-            btnGravar.Click += btnGravar_Click;
+            label2.AutoSize = true;
+            label2.Location = new Point(65, 89);
+            label2.Name = "label2";
+            label2.Size = new Size(43, 15);
+            label2.TabIndex = 1;
+            label2.Text = "Nome:";
             // 
-            // txtNome
+            // label3
             // 
-            txtNome.Location = new Point(78, 53);
-            txtNome.Name = "txtNome";
-            txtNome.Size = new Size(269, 23);
-            txtNome.TabIndex = 19;
-            // 
-            // lblNome
-            // 
-            lblNome.AutoSize = true;
-            lblNome.Location = new Point(29, 56);
-            lblNome.Name = "lblNome";
-            lblNome.Size = new Size(43, 15);
-            lblNome.TabIndex = 17;
-            lblNome.Text = "Nome:";
+            label3.AutoSize = true;
+            label3.Location = new Point(47, 121);
+            label3.Name = "label3";
+            label3.Size = new Size(61, 15);
+            label3.TabIndex = 2;
+            label3.Text = "Disciplina:";
             // 
             // txtId
             // 
             txtId.Enabled = false;
-            txtId.Location = new Point(78, 24);
+            txtId.Location = new Point(114, 35);
             txtId.Name = "txtId";
-            txtId.ReadOnly = true;
-            txtId.Size = new Size(44, 23);
-            txtId.TabIndex = 20;
+            txtId.Size = new Size(47, 23);
+            txtId.TabIndex = 3;
             // 
-            // lblId
+            // txtNome
             // 
-            lblId.AutoSize = true;
-            lblId.Location = new Point(52, 27);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(20, 15);
-            lblId.TabIndex = 18;
-            lblId.Text = "Id:";
+            txtNome.Location = new Point(114, 85);
+            txtNome.Name = "txtNome";
+            txtNome.Size = new Size(289, 23);
+            txtNome.TabIndex = 0;
             // 
-            // lblDisciplina
+            // cmbDisciplina
             // 
-            lblDisciplina.AutoSize = true;
-            lblDisciplina.Location = new Point(11, 85);
-            lblDisciplina.Name = "lblDisciplina";
-            lblDisciplina.Size = new Size(61, 15);
-            lblDisciplina.TabIndex = 17;
-            lblDisciplina.Text = "Disciplina:";
+            cmbDisciplina.FormattingEnabled = true;
+            cmbDisciplina.ImeMode = ImeMode.NoControl;
+            cmbDisciplina.Location = new Point(114, 117);
+            cmbDisciplina.Name = "cmbDisciplina";
+            cmbDisciplina.Size = new Size(121, 23);
+            cmbDisciplina.TabIndex = 1;
+            cmbDisciplina.DropDownStyle = ComboBoxStyle.DropDownList;
             // 
-            // cmbDisciplinas
+            // label4
             // 
-            cmbDisciplinas.FormattingEnabled = true;
-            cmbDisciplinas.Location = new Point(78, 82);
-            cmbDisciplinas.Name = "cmbDisciplinas";
-            cmbDisciplinas.Size = new Size(121, 23);
-            cmbDisciplinas.TabIndex = 23;
+            label4.AutoSize = true;
+            label4.Location = new Point(73, 153);
+            label4.Name = "label4";
+            label4.Size = new Size(35, 15);
+            label4.TabIndex = 6;
+            label4.Text = "Série:";
             // 
-            // lblSerie
+            // btnGravar
             // 
-            lblSerie.AutoSize = true;
-            lblSerie.Location = new Point(37, 111);
-            lblSerie.Name = "lblSerie";
-            lblSerie.Size = new Size(35, 15);
-            lblSerie.TabIndex = 17;
-            lblSerie.Text = "Série:";
+            btnGravar.DialogResult = DialogResult.OK;
+            btnGravar.Location = new Point(373, 213);
+            btnGravar.Name = "btnGravar";
+            btnGravar.Size = new Size(75, 23);
+            btnGravar.TabIndex = 5;
+            btnGravar.Text = "Gravar";
+            btnGravar.UseVisualStyleBackColor = true;
+            btnGravar.Click += btnGravar_Click;
             // 
-            // rdbPrimeira
+            // btnCancelar
             // 
-            rdbPrimeira.AutoSize = true;
-            rdbPrimeira.Checked = true;
-            rdbPrimeira.Location = new Point(78, 111);
-            rdbPrimeira.Name = "rdbPrimeira";
-            rdbPrimeira.Size = new Size(36, 19);
-            rdbPrimeira.TabIndex = 24;
-            rdbPrimeira.TabStop = true;
-            rdbPrimeira.Text = "1ª";
-            rdbPrimeira.UseVisualStyleBackColor = true;
-            rdbPrimeira.CheckedChanged += rdbPrimeira_CheckedChanged;
+            btnCancelar.DialogResult = DialogResult.Cancel;
+            btnCancelar.Location = new Point(12, 213);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(75, 23);
+            btnCancelar.TabIndex = 4;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.UseVisualStyleBackColor = true;
             // 
-            // rdbSegunda
+            // radio1Serie
             // 
-            rdbSegunda.AutoSize = true;
-            rdbSegunda.Location = new Point(120, 111);
-            rdbSegunda.Name = "rdbSegunda";
-            rdbSegunda.Size = new Size(36, 19);
-            rdbSegunda.TabIndex = 24;
-            rdbSegunda.Text = "2ª";
-            rdbSegunda.UseVisualStyleBackColor = true;
-            rdbSegunda.CheckedChanged += rdbSegunda_CheckedChanged;
+            radio1Serie.AutoSize = true;
+            radio1Serie.Location = new Point(120, 151);
+            radio1Serie.Name = "radio1Serie";
+            radio1Serie.Size = new Size(36, 19);
+            radio1Serie.TabIndex = 2;
+            radio1Serie.TabStop = true;
+            radio1Serie.Text = "1º";
+            radio1Serie.UseVisualStyleBackColor = true;
+            // 
+            // radio2Serie
+            // 
+            radio2Serie.AutoSize = true;
+            radio2Serie.Location = new Point(170, 151);
+            radio2Serie.Name = "radio2Serie";
+            radio2Serie.Size = new Size(36, 19);
+            radio2Serie.TabIndex = 3;
+            radio2Serie.TabStop = true;
+            radio2Serie.Text = "2º";
+            radio2Serie.UseVisualStyleBackColor = true;
             // 
             // TelaMateriaForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(397, 214);
-            Controls.Add(rdbSegunda);
-            Controls.Add(rdbPrimeira);
-            Controls.Add(cmbDisciplinas);
+            ClientSize = new Size(470, 248);
+            Controls.Add(radio2Serie);
+            Controls.Add(radio1Serie);
             Controls.Add(btnCancelar);
-            Controls.Add(lblSerie);
             Controls.Add(btnGravar);
-            Controls.Add(lblDisciplina);
+            Controls.Add(label4);
+            Controls.Add(cmbDisciplina);
             Controls.Add(txtNome);
-            Controls.Add(lblNome);
             Controls.Add(txtId);
-            Controls.Add(lblId);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "TelaMateriaForm";
-            ShowIcon = false;
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Cadastro de Matérias";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Cadastro de Matéria";
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button btnCancelar;
-        private Button btnGravar;
-        private TextBox txtNome;
-        private Label lblNome;
+        private Label label1;
+        private Label label2;
+        private Label label3;
         private TextBox txtId;
-        private Label lblId;
-        private Label lblDisciplina;
-        private ComboBox cmbDisciplinas;
-        private Label lblSerie;
-        private RadioButton rdbPrimeira;
-        private RadioButton rdbSegunda;
+        private TextBox txtNome;
+        private ComboBox cmbDisciplina;
+        private Label label4;
+        private Button btnGravar;
+        private Button btnCancelar;
+        private RadioButton radio1Serie;
+        private RadioButton radio2Serie;
     }
 }

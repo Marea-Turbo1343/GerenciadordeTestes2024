@@ -1,37 +1,34 @@
-﻿using GerenciadordeTestes.WinApp.Compartilhado;
-using GerenciadordeTestes.WinApp.ModuloMateria;
+﻿using Gerador_de_Testes.Compartilhado;
 
-namespace GerenciadordeTestes.WinApp.ModuloDisciplina
+namespace Gerador_de_Testes.ModuloDisciplina
 {
-    public class RepositorioDisciplina : RepositorioBase<Disciplina>, IRepositorioDisciplina
+    internal class RepositorioDisciplina : RepositorioBase<Disciplina>, IRepositorioDisciplina
     {
-        public RepositorioDisciplina(ContextoDados contexto) : base(contexto)
-        {
-            if (contexto.Disciplinas.Any()) contadorId = contexto.Disciplinas.Max(d => d.Id) + 1;
-        }
+        public RepositorioDisciplina(ContextoDados contexto) : base(contexto) { }
 
-        protected override List<Disciplina> ObterRegistros()
-        {
-            return contexto.Disciplinas;
-        }
-
-        public int ObterProximoId()
-        {
-            if (contexto.Disciplinas.Any())
-                return contexto.Disciplinas.Max(c => c.Id) + 1;
-            else
-                return 1;
-        }
-
+        protected override List<Disciplina> ObterRegistros() => contexto.Disciplinas;
         public override bool Excluir(int id)
         {
-            Disciplina disciplina = SelecionarPorId(id);
+            if (contexto.Materias.Exists(m => m.Disciplina.Id == id))
+            {
+                MessageBox.Show(
+                    "Registro sendo utilizado por uma Matéria.\nNão é possível excluir!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-            List<Materia> materiasRelacionadas = contexto.Materias.FindAll(m => m.Disciplina.Id == disciplina.Id);
+                return false;
+            }
+            if (contexto.Testes.Exists(t => t.Disciplina.Id == id))
+            {
+                MessageBox.Show(
+                    "Registro sendo utilizado por um Teste.\nNão é possível excluir!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-            foreach (Materia m in materiasRelacionadas)
-                m.Disciplina = null;
-
+                return false;
+            }
             return base.Excluir(id);
         }
     }

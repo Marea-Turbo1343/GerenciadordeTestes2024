@@ -1,9 +1,6 @@
-﻿using System.Windows.Forms;
-using System.Xml.Linq;
-
-namespace Gerador_de_Testes.ModuloMateria
+﻿namespace Gerador_de_Testes.ModuloQuestao
 {
-    partial class TabelaMateriaControl
+    partial class TabelaQuestaoControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -41,15 +38,16 @@ namespace Gerador_de_Testes.ModuloMateria
             grid.Dock = DockStyle.Fill;
             grid.Location = new Point(0, 0);
             grid.Name = "grid";
-            grid.Size = new Size(150, 150);
+            grid.Size = new Size(197, 182);
             grid.TabIndex = 0;
             // 
-            // TabelaMateriaControl
+            // TabelaQuestaoControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(grid);
-            Name = "TabelaMateriaControl";
+            Name = "TabelaQuestaoControl";
+            Size = new Size(197, 182);
             ((System.ComponentModel.ISupportInitialize)grid).EndInit();
             ResumeLayout(false);
         }

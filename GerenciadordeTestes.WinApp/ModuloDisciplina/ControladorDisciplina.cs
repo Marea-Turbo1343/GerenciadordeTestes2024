@@ -1,137 +1,83 @@
-﻿using GerenciadordeTestes.WinApp.Compartilhado;
-
-namespace GerenciadordeTestes.WinApp.ModuloDisciplina
+﻿using Gerador_de_Testes.Compartilhado;
+//using GerenciadordeTestes.WinApp.ModuloDisciplina;
+namespace Gerador_de_Testes.ModuloDisciplina
 {
-    public class ControladorDisciplina : ControladorBase
+    public class ControladorDisciplina(IRepositorioDisciplina repositorioDisciplina, ContextoDados contexto) : ControladorBase
     {
-        private IRepositorioDisciplina repositorioDisciplina;
         private TabelaDisciplinaControl tabelaDisciplina;
 
-        public ControladorDisciplina(IRepositorioDisciplina repositorio)
-        {
-            this.repositorioDisciplina = repositorio;
-        }
+        #region ToolTips
+        public override string TipoCadastro { get { return "Disciplinas"; } }
+        public override string ToolTipAdicionar { get { return "Cadastrar uma nova disciplina"; } }
+        public override string ToolTipEditar { get { return "Editar uma disciplina"; } }
+        public override string ToolTipExcluir { get { return "Excluir uma disciplina"; } }
+        #endregion
 
-        public override string TipoCadastro { get { return "Disciplina"; } }
-
-        public override string ToolTipAdicionar { get { return "Cadastrar um nova disciplina"; } }
-
-        public override string ToolTipEditar { get { return "Editar uma disciplina existente"; } }
-
-        public override string ToolTipExcluir { get { return "Excluir uma disciplina existente"; } }
-
-        public void AtualizarListagem()
-        {
-            List<Disciplina> disciplinas = repositorioDisciplina.SelecionarTodos();
-
-            tabelaDisciplina.AtualizarRegistros(disciplinas);
-
-            TelaPrincipalForm.Instancia.AtualizarRodape(ObterTextoRodape(disciplinas));
-        }
-
-        private static string ObterTextoRodape(List<Disciplina> disciplinas)
-        {
-            if (disciplinas.Count == 0)
-                return "Nenhuma disciplina cadastrada até o momento!";
-            else if (disciplinas.Count == 1)
-                return "Exibindo 1 disciplina";
-            else
-                return $"Exibindo {disciplinas.Count} disciplinas.";
-        }
-
+        #region CRUD
         public override void Adicionar()
         {
-            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina);
+            int id = repositorioDisciplina.PegarId();
 
-            //TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina.SelecionarTodos());
-
+            TelaDisciplinaForm telaDisciplina = new(id, contexto);
             DialogResult resultado = telaDisciplina.ShowDialog();
 
-            if (resultado != DialogResult.OK)
-                return;
+            if (resultado != DialogResult.OK) return;
 
             Disciplina novaDisciplina = telaDisciplina.Disciplina;
 
-            repositorioDisciplina.Cadastrar(novaDisciplina);
+            RealizarAcao(
+                () => repositorioDisciplina.Cadastrar(novaDisciplina),
+                novaDisciplina, "cadastrado");
 
-            CarregarDisciplinas();
-
-            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro\"{novaDisciplina.Nome}\" foi criado com sucesso!");
+            id++;
         }
-
         public override void Editar()
         {
-            //TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina.SelecionarTodos());
-
-            TelaDisciplinaForm telaDisciplina = new TelaDisciplinaForm(repositorioDisciplina);
-
             int idSelecionado = tabelaDisciplina.ObterRegistroSelecionado();
 
-            Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(idSelecionado);
+            TelaDisciplinaForm telaDisciplina = new(idSelecionado, contexto);
 
-            if (disciplinaSelecionada == null)
-            {
-                MessageBox.Show("Não é possível realizar esta ação sem um registro selecionado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            Disciplina disciplinaSelecionada =
+                repositorioDisciplina.SelecionarPorId(idSelecionado);
+
+            if (SemSeleção(disciplinaSelecionada)) return;
 
             telaDisciplina.Disciplina = disciplinaSelecionada;
 
             DialogResult resultado = telaDisciplina.ShowDialog();
-
-            if (resultado != DialogResult.OK)
-                return;
+            if (resultado != DialogResult.OK) return;
 
             Disciplina disciplinaEditada = telaDisciplina.Disciplina;
 
-            repositorioDisciplina.Editar(disciplinaSelecionada.Id, disciplinaEditada);
-
-            CarregarDisciplinas();
-
-            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro\"{disciplinaEditada.Nome}\" foi editado com sucesso!");
+            RealizarAcao(
+                () => repositorioDisciplina.Editar(disciplinaSelecionada.Id, disciplinaEditada),
+                disciplinaEditada, "editado");
         }
-
         public override void Excluir()
         {
             int idSelecionado = tabelaDisciplina.ObterRegistroSelecionado();
 
             Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(idSelecionado);
 
-            if (disciplinaSelecionada == null)
-            {
-                MessageBox.Show("Não é possível realizar esta ação sem um registro selecionado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (SemSeleção(disciplinaSelecionada) || !DesejaRealmenteExcluir(disciplinaSelecionada)) return;
 
-            DialogResult resposta = MessageBox.Show($"Você deseja realmente excluir o registro \"{disciplinaSelecionada.Nome}\"?", "Confirmar Exclusão", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (resposta != DialogResult.Yes)
-                return;
-
-            repositorioDisciplina.Excluir(disciplinaSelecionada.Id);
-
-            CarregarDisciplinas();
-
-            TelaPrincipalForm.Instancia.AtualizarRodape($"O registro\"{disciplinaSelecionada.Nome}\" foi excluído com sucesso!");
+            RealizarAcao(
+                () => repositorioDisciplina.Excluir(disciplinaSelecionada.Id),
+                disciplinaSelecionada, "excluído");
         }
+        #endregion
 
-        private void CarregarDisciplinas()
-        {
-            List<Disciplina> disciplinas = repositorioDisciplina.SelecionarTodos();
-
-            tabelaDisciplina.AtualizarRegistros(disciplinas);
-        }
-
+        #region Auxiliares
         public override UserControl ObterListagem()
         {
-            if (tabelaDisciplina == null)
-                tabelaDisciplina = new TabelaDisciplinaControl();
+            tabelaDisciplina ??= new();
 
-            CarregarDisciplinas();
-
-            AtualizarListagem();
+            CarregarRegistros();
 
             return tabelaDisciplina;
         }
+        protected override void CarregarRegistros()
+            => tabelaDisciplina.AtualizarRegistros(repositorioDisciplina.SelecionarTodos());
+        #endregion
     }
 }

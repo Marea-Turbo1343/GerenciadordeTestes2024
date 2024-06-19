@@ -1,12 +1,12 @@
-﻿namespace GerenciadordeTestes.WinApp.ModuloDisciplina
+﻿namespace Gerador_de_Testes.ModuloDisciplina
 {
     public interface IRepositorioDisciplina
     {
-        void Cadastrar(Disciplina novoDisciplina);
-        bool Editar(int id, Disciplina disciplinaEditado);
+        void Cadastrar(Disciplina novaDisciplina);
+        bool Editar(int id, Disciplina disciplinaEditada);
         bool Excluir(int id);
-        Disciplina SelecionarPorId(int id);
+        int PegarId();
+        Disciplina SelecionarPorId(int idSelecionado);
         List<Disciplina> SelecionarTodos();
-        int ObterProximoId();
     }
 }

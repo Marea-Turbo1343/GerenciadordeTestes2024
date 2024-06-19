@@ -1,36 +1,25 @@
-﻿using GerenciadordeTestes.WinApp.Compartilhado;
-
-namespace GerenciadordeTestes.WinApp.ModuloMateria
+﻿using Gerador_de_Testes.Compartilhado;
+namespace Gerador_de_Testes.ModuloMateria
 {
-    public class RepositorioMateria : RepositorioBase<Materia>, IRepositorioMateria
+    internal class RepositorioMateria : RepositorioBase<Materia>, IRepositorioMateria
     {
-        public RepositorioMateria(ContextoDados contexto) : base(contexto)
-        {
-            if (contexto.Materias.Any()) contadorId = contexto.Materias.Max(m => m.Id) + 1;
-        }
+        public RepositorioMateria(ContextoDados contexto) : base(contexto) { }
 
-        public int ObterProximoId()
-        {
-            if (contexto.Materias.Any())
-                return contexto.Materias.Max(c => c.Id) + 1;
-            else
-                return 1;
-        }
-
-        protected override List<Materia> ObterRegistros()
-        {
-            return contexto.Materias;
-        }
+        protected override List<Materia> ObterRegistros() => contexto.Materias;
 
         public override bool Excluir(int id)
         {
-            Materia materia = SelecionarPorId(id);
+            if (contexto.Questoes.Exists(q => q.Materia == SelecionarPorId(id)))
+            {
+                MessageBox.Show(
+                    "Registro sendo utilizado por uma Questão.\nNão é possível excluir!",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
 
-            //List<Questao> questoesRelacionadas = contexto.Questoes.FindAll(q => q.Materia.Id == materia.Id);
-
-            //foreach (Questao q in questoesRelacionadas)
-            //    q.Materia = null;
-
+                return false;
+            }
             return base.Excluir(id);
         }
     }

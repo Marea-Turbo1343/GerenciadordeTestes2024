@@ -1,6 +1,5 @@
-﻿using GerenciadordeTestes.WinApp.Compartilhado;
-
-namespace GerenciadordeTestes.WinApp.ModuloDisciplina
+﻿using Gerador_de_Testes.Compartilhado;
+namespace Gerador_de_Testes.ModuloDisciplina
 {
     public partial class TabelaDisciplinaControl : UserControl
     {
@@ -8,32 +7,26 @@ namespace GerenciadordeTestes.WinApp.ModuloDisciplina
         {
             InitializeComponent();
 
-            grid.Columns.AddRange(GerarColunas());
-
+            grid.Columns.AddRange(ObterColunas());
             grid.ConfigurarGridSomenteLeitura();
             grid.ConfigurarGridZebrado();
         }
 
-        public void AtualizarRegistros(List<Disciplina> disciplina)
+        public void AtualizarRegistros(List<Disciplina> disciplinas)
         {
             grid.Rows.Clear();
 
-            foreach (Disciplina d in disciplina)
-                grid.Rows.Add(d.Id, d.Nome.ToTitleCase());
+            foreach (Disciplina c in disciplinas)
+                grid.Rows.Add(c.Id, c.Nome.ToTitleCase());
         }
-
-        public int ObterRegistroSelecionado()
+        public int ObterRegistroSelecionado() => grid.SelecionarId();
+        private DataGridViewColumn[] ObterColunas()
         {
-            return grid.SelecionarId();
-        }
-
-        private DataGridViewColumn[] GerarColunas()
-        {
-            return new DataGridViewColumn[]
-                        {
+            return
+            [
                 new DataGridViewTextBoxColumn { DataPropertyName = "Id", HeaderText = "Id" },
-                new DataGridViewTextBoxColumn { DataPropertyName = "Nome", HeaderText = "Nome" }
-                        };
+                new DataGridViewTextBoxColumn { DataPropertyName = "Nome", HeaderText = "Nome" },
+            ];
         }
     }
 }

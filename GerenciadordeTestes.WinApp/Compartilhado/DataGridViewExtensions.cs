@@ -1,4 +1,4 @@
-﻿namespace GerenciadordeTestes.WinApp.Compartilhado
+﻿namespace Gerador_de_Testes.Compartilhado
 {
     public static class DataGridViewExtensions
     {
@@ -27,7 +27,6 @@
 
             grid.RowsDefaultCellStyle = linhaClara;
         }
-
         public static void ConfigurarGridSomenteLeitura(this DataGridView grid)
         {
             grid.AllowUserToAddRows = false;
@@ -48,7 +47,6 @@
             grid.AllowUserToResizeRows = false;
             grid.RowHeadersVisible = false;
         }
-
         public static int SelecionarId(this DataGridView grid)
         {
             if (grid.SelectedRows.Count == 0)

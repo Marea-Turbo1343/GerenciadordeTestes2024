@@ -1,145 +1,133 @@
-using GerenciadordeTestes.WinApp.Compartilhado;
-using GerenciadordeTestes.WinApp.ModuloDisciplina;
-using GerenciadordeTestes.WinApp.ModuloMateria;
-//using GerenciadordeTestes.WinApp.ModuloQuestao;
-//using GerenciadordeTestes.WinApp.ModuloTeste;
-
-
-namespace GerenciadordeTestes.WinApp
+using Gerador_de_Testes.Compartilhado;
+using Gerador_de_Testes.ModuloDisciplina;
+using Gerador_de_Testes.ModuloMateria;
+using Gerador_de_Testes.ModuloQuestao;
+using Gerador_de_Testes.ModuloTeste;
+namespace Gerador_de_Testes
 {
     public partial class TelaPrincipalForm : Form
     {
         ControladorBase controlador;
-
         ContextoDados contexto;
 
         IRepositorioDisciplina repositorioDisciplina;
         IRepositorioMateria repositorioMateria;
-        //IRepositorioQuestao repositorioQuestao;
-        //IRepositorioTeste repositorioTeste;
-
-        public event Action TemporizadorTerminou;
+        IRepositorioQuestao repositorioQuestao;
+        IRepositorioTeste repositorioTeste;
 
         public static TelaPrincipalForm Instancia { get; private set; }
-
         public TelaPrincipalForm()
         {
             InitializeComponent();
-            lblTipoCadastro.Text = string.Empty;
-            Instancia = this;
 
-            contexto = new ContextoDados(true);
+            lblTipoCadastro.Text = string.Empty;
+
+            contexto = new(carregarDados: true);
+
             repositorioDisciplina = new RepositorioDisciplina(contexto);
             repositorioMateria = new RepositorioMateria(contexto);
-            //repositorioQuestao = new RepositorioQuestao(contexto);
-            //repositorioTeste = new RepositorioTeste(contexto);
+            repositorioQuestao = new RepositorioQuestao(contexto);
+            repositorioTeste = new RepositorioTeste(contexto);
 
-            //CadastrarRegistrosTeste();
+            Instancia = this;
         }
+        public void AtualizarRodape(string texto) => statusLabelPrincipal.Text = texto;
 
-        public void AtualizarRodape(string texto)
-        {
-            stslblRodape.Text = texto;
-        }
 
-        public void Temporizador(string mensagem)
-        {
-            AtualizarRodape(mensagem);
+        #region Seleção de módulo
+        private void disciplinasMenuItem_Click(object sender, EventArgs e)
+            => SelecionaModulo(ref controlador, () => controlador = new ControladorDisciplina(repositorioDisciplina, contexto),
+                contexto.Disciplinas.Count);
+        private void materiasMenuItem_Click(object sender, EventArgs e)
+            => SelecionaModulo(ref controlador, () => controlador = new ControladorMateria(repositorioMateria, contexto),
+                contexto.Materias.Count);
+        private void questoesMenuItem_Click(object sender, EventArgs e)
+            => SelecionaModulo(ref controlador, () => controlador = new ControladorQuestao(repositorioQuestao, contexto),
+                contexto.Questoes.Count);
+        private void testesMenuItem_Click(object sender, EventArgs e)
+            => SelecionaModulo(ref controlador, () => controlador = new ControladorTeste(repositorioTeste, contexto),
+                contexto.Testes.Count);
+        #endregion
 
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 5000;
-            timer.Tick += (s, e) =>
-            {
-                timer.Stop();
-                TemporizadorTerminou?.Invoke();
-            };
-            timer.Start();
-        }
-
-        private void disciplinasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            controlador = new ControladorDisciplina(repositorioDisciplina);
-
-            ConfigurarTelaPrincipal(controlador);
-        }
-
-        private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            controlador = new ControladorMateria(repositorioMateria, repositorioDisciplina);
-            
-            ConfigurarTelaPrincipal(controlador);
-        }
-
-        private void questõesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void testesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        #region Botões
         private void btnAdicionar_Click(object sender, EventArgs e)
-        {
-            controlador.Adicionar();
-        }
-
+            => controlador.Adicionar();
         private void btnEditar_Click(object sender, EventArgs e)
-        {
-            controlador.Editar();
-        }
-
+            => controlador.Editar();
         private void btnExcluir_Click(object sender, EventArgs e)
+            => controlador.Excluir();
+        private void btnDuplicar_Click(object sender, EventArgs e)
         {
-            controlador.Excluir();
+            if (controlador is IControladorDuplicavel controladorDuplicavel)
+                controladorDuplicavel.DuplicarTeste();
         }
-
-        private void ConfigurarTelaPrincipal(ControladorBase controladorSelecionado)
+        private void btnDetalhes_Click(object sender, EventArgs e)
         {
-            //lblTipoCadastro.Text = "Cadastro de " + controladorSelecionado.TipoCadastro;
-
-            lblTipoCadastro.Text = controladorSelecionado.TipoCadastro;
-
-            ConfigurarToolBox(controladorSelecionado);
-            ConfigurarListagem(controladorSelecionado);
+            if (controlador is IControladorDetalhes controladorDetalhes)
+                controladorDetalhes.VisualizarDetalhes();
         }
+        private void btnPdf_Click(object sender, EventArgs e)
+        {
+            if (controlador is IControladorPDF controladorPDF)
+                controladorPDF.GerarPDF();
+        }
+        private void btnGabarito_Click(object sender, EventArgs e)
+        {
+            if (controlador is IControladorPDF controladorPDF)
+                controladorPDF.GerarPdfGabarito();
+        }
+        #endregion
 
+        #region Auxiliares
+        private void SelecionaModulo(ref ControladorBase controlador, Action controladorSelecionado, int numRegistros)
+        {
+            controladorSelecionado();
+            lblTipoCadastro.Text = "Cadastro de " + controlador.TipoCadastro;
+
+            ConfigurarToolBox(controlador);
+            ConfigurarListagem(controlador);
+            AtualizarRodape($"Visualizando {numRegistros} registro(s)...");
+        }
         private void ConfigurarToolBox(ControladorBase controladorSelecionado)
         {
-            btnAdicionar.Enabled = controladorSelecionado is ControladorBase;
-            btnEditar.Enabled = controladorSelecionado is ControladorBase;
-            btnExcluir.Enabled = controladorSelecionado is ControladorBase;
+            btnAdicionar.Enabled = true;
+            btnEditar.Enabled = controladorSelecionado is not ControladorTeste;
+            btnExcluir.Enabled = true;
+            btnDuplicar.Enabled = controladorSelecionado is IControladorDuplicavel;
+            btnDetalhes.Enabled = controladorSelecionado is IControladorDetalhes;
+            btnPdf.Enabled = controladorSelecionado is IControladorPDF;
+            btnGabarito.Enabled = controladorSelecionado is IControladorPDF;
 
             ConfigurarToolTips(controladorSelecionado);
         }
-
         private void ConfigurarToolTips(ControladorBase controladorSelecionado)
         {
             btnAdicionar.ToolTipText = controladorSelecionado.ToolTipAdicionar;
-            btnEditar.ToolTipText = controladorSelecionado.ToolTipEditar;
             btnExcluir.ToolTipText = controladorSelecionado.ToolTipExcluir;
-        }
 
+            if (controladorSelecionado is not ControladorTeste)
+                btnEditar.ToolTipText = controladorSelecionado.ToolTipEditar;
+
+            if (controladorSelecionado is IControladorDuplicavel controladorDuplicavel)
+                btnDuplicar.ToolTipText = controladorDuplicavel.ToolTipDuplicarTeste;
+
+            if (controladorSelecionado is IControladorDetalhes controladorDetalhes)
+                btnDetalhes.ToolTipText = controladorDetalhes.ToolTipVisualizarDetalhes;
+
+            if (controladorSelecionado is IControladorPDF controladorPDF)
+            {
+                btnPdf.ToolTipText = controladorPDF.ToolTipGerarPDF;
+                btnGabarito.ToolTipText = controladorPDF.ToolTipGerarPdfGabarito;
+            }
+        }
         private void ConfigurarListagem(ControladorBase controladorSelecionado)
         {
-            UserControl listagemObjeto = controladorSelecionado.ObterListagem();
-            listagemObjeto.Dock = DockStyle.Fill;
+            UserControl listagemContato = controladorSelecionado.ObterListagem();
 
+            listagemContato.Dock = DockStyle.Fill;
             pnlRegistros.Controls.Clear();
-            pnlRegistros.Controls.Add(listagemObjeto);
+            pnlRegistros.Controls.Add(listagemContato);
         }
-
-        //private void CadastrarRegistrosTeste()
-        //{
-        //    List<Disciplina> disciplinas = new List<Disciplina>()
-        //    {
-        //        new("Matematica"),
-        //        new("Português"),
-        //        new("Geografia")
-        //    };
-
-        //    repositorioDisciplina.CadastrarVarios(disciplinas);
-        //}
+        #endregion
     }
 }

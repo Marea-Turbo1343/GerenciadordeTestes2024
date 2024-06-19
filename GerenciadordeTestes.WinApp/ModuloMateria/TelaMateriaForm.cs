@@ -1,100 +1,80 @@
-﻿using GerenciadordeTestes.WinApp.ModuloDisciplina;
-
-namespace GerenciadordeTestes.WinApp.ModuloMateria
+﻿using Gerador_de_Testes.Compartilhado;
+using Gerador_de_Testes.ModuloDisciplina;
+using Gerador_de_Testes.ModuloQuestao;
+using GerenciadordeTestes.WinApp;
+namespace Gerador_de_Testes.ModuloMateria
 {
     public partial class TelaMateriaForm : Form
     {
-        private Materia materia;
-        private IRepositorioMateria repositorioMateria;
-        private bool modoEdicao;
+        private List<Questao> questoes = [];
+        public ContextoDados contexto;
+        readonly int id = 0;
 
         public Materia Materia
         {
+            get => materia;
             set
             {
-                txtId.Text = value.Id.ToString();
                 txtNome.Text = value.Nome;
-                cmbDisciplinas.SelectedItem = value.Disciplina;
+                cmbDisciplina.SelectedItem = value.Disciplina;
+                foreach (Questao q in value.Questoes)
+                    questoes.Add(q);
 
-                if (rdbPrimeira.Checked == true)
-                {
-                    value.Serie = "1ª";
-                }
-                if (rdbSegunda.Checked == true)
-                {
-                    value.Serie = "2ª";
-                }
+                if (value.Serie == "1ª série")
+                    radio1Serie.Checked = true;
+                else
+                    radio2Serie.Checked = true;
             }
-            get => materia;
         }
+        private Materia materia;
 
-        public TelaMateriaForm(IRepositorioMateria repositorioMateria, bool modoEdicao = false)
+        public TelaMateriaForm(int id, ContextoDados contexto)
         {
             InitializeComponent();
+            txtId.Text = id.ToString();
+            this.contexto = contexto;
+            this.id = id;
+            CarregarDisciplinas();
+        }
 
-            this.repositorioMateria = repositorioMateria;
-            this.modoEdicao = modoEdicao;
+        public void CarregarDisciplinas()
+        {
+            cmbDisciplina.Items.Clear();
 
-            if (modoEdicao)
+            foreach (Disciplina diciplina in contexto.Disciplinas)
+                cmbDisciplina.Items.Add(diciplina);
+        }
+        private void ValidarCampos()
+        {
+            List<string> erros = materia.Validar();
+
+            //Validação requisitada
+            //materia.ValidarNome(ref erros, contexto.Materias);
+
+            //Validação que achamos que faz mais sentido:
+            materia.ValidarMateriaJaExistente(ref erros, contexto.Materias, id);
+
+            if (erros.Count > 0)
             {
-                this.Text = "Editar Matéria";
+                TelaPrincipalForm.Instancia.AtualizarRodape(erros[0]);
+                DialogResult = DialogResult.None;
             }
-            else
-            {
-                int proximoId = repositorioMateria.ObterProximoId();
-                txtId.Text = proximoId.ToString();
-            }
-        }
-
-        public void CarregarDisciplinas(List<Disciplina> disciplinas)
-        {
-            cmbDisciplinas.Items.Clear();
-
-            foreach (Disciplina d in disciplinas)
-                cmbDisciplinas.Items.Add(d);
-        }
-
-        private void rdbPrimeira_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdbPrimeira.Checked == true)
-                rdbSegunda.Checked = false;
-            else
-                rdbSegunda.Checked = true;
-        }
-
-        private void rdbSegunda_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rdbSegunda.Checked == true)
-                rdbPrimeira.Checked = false;
-            else
-                rdbPrimeira.Checked = true;
+            else DialogResult = DialogResult.OK;
         }
 
         private void btnGravar_Click(object sender, EventArgs e)
         {
             string nome = txtNome.Text;
-            Disciplina disciplina = (Disciplina)cmbDisciplinas.SelectedItem;
+            Disciplina disciplina = (Disciplina)cmbDisciplina.SelectedItem;
+
             string serie = "";
 
-            if (rdbPrimeira.Checked == true)
-            {
-                serie = "1ª";
-            }
-            if (rdbSegunda.Checked == true)
-            {
-                serie = "2ª";
-            }
+            if (radio1Serie.Checked) serie = "1ª série";
+            if (radio2Serie.Checked) serie = "2ª série";
 
-            materia = new Materia(nome, disciplina, serie);
+            materia = new Materia(nome, serie, disciplina, questoes);
 
-            List<string> erros = disciplina.Validar();
-
-            if (erros.Count > 0)
-            {
-                TelaPrincipalForm.Instancia.AtualizarRodape(erros[0]);
-
-                DialogResult = DialogResult.None;
-            }
+            ValidarCampos();
         }
     }
 }

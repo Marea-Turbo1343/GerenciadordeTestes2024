@@ -1,31 +1,32 @@
-﻿namespace GerenciadordeTestes.WinApp.Compartilhado
+﻿namespace Gerador_de_Testes.Compartilhado
 {
-    public abstract class RepositorioBase<T> where T : EntidadeBase
+    internal abstract class RepositorioBase<T>(ContextoDados contexto) where T : EntidadeBase
     {
-        protected ContextoDados contexto;
-
-        protected abstract List<T> ObterRegistros();
-
-        protected int contadorId = 1;
-
-        public RepositorioBase(ContextoDados contexto)
+        protected int contadorId //Baseado no Id do último item cadastrado
         {
-            this.contexto = contexto;
-
-            if (ObterRegistros().Count > 0)
-                contadorId = ObterRegistros().Max(e => e.Id) + 1;
+            get
+            {
+                if (backupId != 0) return backupId;
+                if (ObterRegistros().Count != 0) return ObterRegistros().Last().Id + 1;
+                return 1;
+            }
+            set { }
         }
+        protected int backupId; //Caso o último registro seja excluído
+        protected abstract List<T> ObterRegistros();
+        protected ContextoDados contexto = contexto;
 
+        #region CRUD
         public void Cadastrar(T novoRegistro)
         {
             novoRegistro.Id = contadorId++;
+            backupId = 0;
 
             ObterRegistros().Add(novoRegistro);
 
             contexto.Gravar();
         }
-
-        public bool Editar(int id, T novaEntidade)
+        public virtual bool Editar(int id, T novaEntidade)
         {
             T registro = SelecionarPorId(id);
 
@@ -38,33 +39,25 @@
 
             return true;
         }
-
         public virtual bool Excluir(int id)
         {
+            if (SelecionarPorId(id) == ObterRegistros().Last()) backupId = contadorId;
 
             bool conseguiuExcluir = ObterRegistros().Remove(SelecionarPorId(id));
 
-            if (!conseguiuExcluir)
-                return false;
+            if (!conseguiuExcluir) return false;
 
             contexto.Gravar();
 
             return true;
         }
+        #endregion
 
-        public List<T> SelecionarTodos()
-        {
-            return ObterRegistros();
-        }
-
-        public T SelecionarPorId(int id)
-        {
-            return ObterRegistros().Find(x => x.Id == id);
-        }
-
-        public bool Existe(int id)
-        {
-            return ObterRegistros().Any(x => x.Id == id);
-        }
+        #region Auxiliares
+        public List<T> SelecionarTodos() => ObterRegistros();
+        public T SelecionarPorId(int id) => ObterRegistros().Find(x => x.Id == id);
+        public int PegarId() => contadorId;
+        public bool Existe(int id) => ObterRegistros().Any(x => x.Id == id);
+        #endregion
     }
 }
